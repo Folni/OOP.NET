@@ -1,4 +1,3 @@
-using Library;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
@@ -7,112 +6,115 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Lib
+namespace Library
 {
     public static class Information
     {
         public static string relativePath = @"..\";
 
-        public static async Task<List<Team>> GetTeams(string URL)
+        // Methods 1 (GetMatches), 2 (GetPlayersFromFile), and 4 (GetTeams) remain the same.
+        // ... (Keep your existing GetMatches, GetPlayersFromFile, GetTeams methods)
+
+        // ----------------------------------------------------
+        // 3) REVISED: Get Players & Matches for a specific team
+        // ----------------------------------------------------
+        /// <summary>
+        /// Fetches all matches for a given team and aggregates a unique set of all players
+        /// who participated in those matches.
+        /// </summary>
+        /// <param name="team">The team to get data for.</param>
+        /// <param name="isMenWorldCup">Specifies whether to use the Men's or Women's API.</param>
+        /// <returns>A tuple containing the list of matches and a set of players for the team.</returns>
+        public static async Task<(List<Match> TeamMatches, ISet<Player> TeamPlayers)> GetTeamDataAsync(Team team, bool isMenWorldCup)
         {
-            var restClient = new RestClient(URL);
-            var restResponse = await restClient.ExecuteAsync<List<Team>>(new RestRequest());
-
-            if (!restResponse.IsSuccessful)
+            if (team == null || string.IsNullOrWhiteSpace(team.FifaCode))
             {
-                throw new Exception($"Failed to retrieve teams: {restResponse.StatusCode} - {restResponse.ErrorMessage}");
+                // Return empty collections if the team is invalid
+                return (new List<Match>(), new HashSet<Player>());
             }
 
-            return restResponse.Data;
-        }
+            // Get all matches for the given team
+            List<Match> teamMatches = await GetMatches(team.FifaCode, isMenWorldCup);
+            ISet<Player> teamPlayers = new HashSet<Player>();
 
-        public static async Task<List<Match>> GetMatches(string URL)
-        {
-            var restClient = new RestClient(URL);
-            var restResponse = await restClient.ExecuteAsync<List<Match>>(new RestRequest());
-
-            if (!restResponse.IsSuccessful)
+            // Iterate through ALL fetched matches to gather every player
+            foreach (var match in teamMatches)
             {
-                throw new Exception($"No matches found: {restResponse.StatusCode} - {restResponse.ErrorMessage}");
-            }
+                IEnumerable<Player> playersInMatch = null;
 
-            return restResponse.Data;
-        }
-
-        public static ISet<Player> GetPlayersFromFile(string path)
-        {
-            ISet<Player> players = new HashSet<Player>();
-            string[] strings;
-
-            try
-            {
-                strings = File.ReadAllLines(path);
-            }
-            catch (Exception ex)
-            {
-                // Throw a specific exception!!!
-                throw new IOException($"An error occurred while reading the file at {path}.", ex);
-            }
-
-            // Check if the file is empty or malformed
-            if (strings.Length < 1)
-            {
-                return players;
-            }
-
-            try
-            {
-                int iterations = int.Parse(strings[0]);
-                for (int i = 1; i <= iterations && i < strings.Length; i++)
+                // Determine if the team was home or away to get the correct player list
+                if (match.HomeTeamCountry == team.Country)
                 {
-                    players.Add(Player.Parse(strings[i]));
+                    playersInMatch = match.HomeTeamStatistics.StartingEleven
+                                        .Concat(match.HomeTeamStatistics.Substitutes);
                 }
-            }
-            catch (FormatException ex)
-            {
-                throw new FormatException("The file contains malformed data or an invalid line count.", ex);
-            }
-
-            return players;
-        }
-
-        public static async Task GetPlayersFromApiAsync(Team team, IList<Match> allMatches, bool choice, ISet<Player> allPlayers)
-        {
-            string url = choice
-                ? $"https://worldcup-vua.nullbit.hr/men/matches/country?fifa_code={team.FifaCode}"
-                : $"https://worldcup-vua.nullbit.hr/women/matches/country?fifa_code={team.FifaCode}";
-
-            List<Match> matches = await GetMatches(url);
-
-            if (matches.Any())
-            {
-                // Add all matches to the list
-                foreach (Match match in matches)
+                else if (match.AwayTeamCountry == team.Country)
                 {
-                    allMatches.Add(match);
+                    playersInMatch = match.AwayTeamStatistics.StartingEleven
+                                        .Concat(match.AwayTeamStatistics.Substitutes);
                 }
 
-                var firstMatch = allMatches[0];
-
-                if (firstMatch.AwayTeamCountry == team.Country)
+                // Add the players from this match to the set (duplicates are handled automatically)
+                if (playersInMatch != null)
                 {
-                    var playersInMatch = firstMatch.AwayTeamStatistics.StartingEleven.Concat(firstMatch.AwayTeamStatistics.Substitutes);
-                    foreach (Player player in playersInMatch)
+                    foreach (var player in playersInMatch)
                     {
-                        allPlayers.Add(player);
-                    }
-                }
-                else if (firstMatch.HomeTeamCountry == team.Country)
-                {
-                    var playersInMatch = firstMatch.HomeTeamStatistics.StartingEleven.Concat(firstMatch.HomeTeamStatistics.Substitutes);
-                    foreach (Player player in playersInMatch)
-                    {
-                        allPlayers.Add(player);
+                        teamPlayers.Add(player);
                     }
                 }
             }
+
+            return (teamMatches, teamPlayers);
         }
 
-      
+        // In Library/Information.cs, inside the Information class
+
+        // ---------------------------
+        // 1) Get Matches by FIFA Code
+        // ---------------------------
+        public static async Task<List<Match>> GetMatches(string fifaCode, bool isMenWorldCup)
+        {
+            if (string.IsNullOrWhiteSpace(fifaCode))
+                throw new ArgumentException("FIFA code must be provided", nameof(fifaCode));
+
+            string baseUrl = isMenWorldCup
+                ? "https://worldcup-vua.nullbit.hr/men/matches"
+                : "https://worldcup-vua.nullbit.hr/women/matches";
+
+            // The API endpoint for matches by country is `/country?fifa_code=XXX`
+            string fullUrl = $"{baseUrl}/country?fifa_code={fifaCode}";
+
+            var restClient = new RestClient();
+            var request = new RestRequest(fullUrl, Method.Get);
+
+            var restResponse = await restClient.ExecuteAsync<List<Match>>(request);
+
+            if (!restResponse.IsSuccessful)
+                throw new Exception($"API Error: {restResponse.StatusCode} - {restResponse.Content}");
+
+            if (restResponse.Data == null)
+                return new List<Match>(); // Return an empty list if API returns no data
+
+            return restResponse.Data;
+        }
+        public static async Task<List<Team>> GetTeams(bool isMenWorldCup)
+        {
+            string baseUrl = isMenWorldCup
+                ? "https://worldcup-vua.nullbit.hr/men/teams"
+                : "https://worldcup-vua.nullbit.hr/women/teams";
+
+            var restClient = new RestClient();
+            var request = new RestRequest(baseUrl, Method.Get);
+
+            var restResponse = await restClient.ExecuteAsync<List<Team>>(request);
+
+            if (!restResponse.IsSuccessful)
+                throw new Exception($"API Error: {restResponse.StatusCode} - {restResponse.Content}");
+
+            if (restResponse.Data == null)
+                return new List<Team>();
+
+            return restResponse.Data;
+        }
     }
 }

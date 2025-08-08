@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("wfa_FilipFolnegović")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+88a5fccbd6d5c2a4eb9636a3e2ee6c8d123e1ea0")]
 [assembly: System.Reflection.AssemblyProductAttribute("wfa_FilipFolnegović")]
 [assembly: System.Reflection.AssemblyTitleAttribute("wfa_FilipFolnegović")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
