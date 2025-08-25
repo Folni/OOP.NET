@@ -1,0 +1,501 @@
+﻿<Window x:Class="WindowsPrez.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WindowsPrez"
+        mc:Ignorable="d"
+        Title="Soccer App" Height="750" Width="1050"
+        Closing="Window_Closing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="188*"/>
+            <RowDefinition Height="177*"/>
+            <RowDefinition Height="369*"/>
+        </Grid.RowDefinitions>
+        <TabControl x:Name="tcPages"
+                    Grid.Row="1" Grid.RowSpan="3" SelectionChanged="tcPages_SelectionChanged" Margin="0,-91,0,90">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Style>
+            </TabControl.Resources>
+            <TabItem 
+                Grid.Row="1">
+                <Grid>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Margin="0 250 250 0"
+                        FontSize="20">
+                        Choose Championship :
+                    </TextBlock>
+                    <ComboBox
+                        x:Name="cbGender"
+                        FontSize="20"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Stretch"
+                        Width="250"
+                        Margin="0,0,250,0">
+                        <ComboBoxItem>Mens</ComboBoxItem>
+                        <ComboBoxItem>Womens</ComboBoxItem>
+                    </ComboBox>
+
+                    <TextBlock
+                        Margin="0 250 150 0"
+                        FontSize="20"
+                        HorizontalAlignment="Right">
+                        Choose Size :
+                    </TextBlock>
+
+                    <ComboBox
+                        x:Name="cbSize"
+                        FontSize="20"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right"
+                        Width="250"
+                        Margin="0,0,80,0"
+                        SelectedIndex="0"
+                        SelectionChanged="cbSize_SelectionChanged">
+                        <ComboBoxItem Content="1050*750"></ComboBoxItem>
+                        <ComboBoxItem Content="1250*950"></ComboBoxItem>
+                        <ComboBoxItem Content="Fullscreen"></ComboBoxItem>
+                    </ComboBox>
+                    <Button 
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Center"
+                        Margin="50 50 50 50"
+                        FontSize="20"
+                        Click="Button_Click_1">
+                        Submit
+                    </Button>
+                </Grid>
+
+            </TabItem>
+
+            <TabItem>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="0"
+                        HorizontalAlignment="Center"
+                        Margin="0 250 0 0"
+                        FontSize="20">
+                        Your Team?
+                    </TextBlock>
+                    <ComboBox 
+                        x:Name="cbTeams"
+                        Grid.Column="0"
+                        FontSize="20"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Stretch"
+                        Width="250">
+                    </ComboBox>
+                    <Button 
+                        x:Name="btnFavoriteTeamSubmit"
+                        Grid.Column="0"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Center"
+                        Margin="50 50 50 50"
+                        FontSize="20"
+                        Click="Button_Click_2">
+                        Select !
+                    </Button>
+                    <Button
+                        x:Name="btnFavoriteTeamInfo"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        FontSize="20"
+                        Width="100"
+                        Click="FavoriteInfoClick"
+                        IsEnabled="False">
+                        Info
+                    </Button>
+
+
+                    <TextBlock
+                        Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        Margin="0 250 0 0"
+                        FontSize="20">
+                        Opponent?
+                    </TextBlock>
+                    <ComboBox 
+                        x:Name="cbOpponents"
+                        Grid.Column="1"
+                        FontSize="20"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Stretch"
+                        Width="250">
+                    </ComboBox>
+                    <Button 
+                        x:Name="btnOpponents"
+                        Grid.Column="1"
+                        IsEnabled="False"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Center"
+                        Margin="50 50 50 50"
+                        FontSize="20"
+                        Click="Button_Click_3">
+                        Select !
+                    </Button>
+                    <Button
+                        x:Name="btnOpponentInfo"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right"
+                        FontSize="20"
+                        Width="100"
+                        Click="OpponentInfo_Click"
+                        IsEnabled="False">
+                        Info
+                    </Button>
+
+                    <Button
+                        x:Name="btnSubmit"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Center"
+                        FontSize="20"
+                        IsEnabled="False"
+                        Click="Button_Click">
+                        Submit
+                    </Button>
+
+                    <TextBlock
+                        x:Name="lbResult"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        FontSize="30"
+                        IsEnabled="False"
+                        Margin="0 200 0 0"
+                        Opacity="0">   
+                        Submit
+                    </TextBlock>
+                </Grid>
+            </TabItem>
+
+
+            <TabItem Grid.Row="1">
+                <Grid 
+                    x:Name="depiction"
+                    Background="Gray">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="1.3*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1.5*"/>
+                        <RowDefinition Height="3.5*"/>
+                        <RowDefinition Height="2.5*"/>
+                    </Grid.RowDefinitions>
+                    <Border 
+                        x:Name="MatchTitle"
+                        Grid.Row="0" 
+                        Grid.ColumnSpan="3">
+                        <Grid 
+                            Margin="200 0 200 0"
+                            VerticalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="3"
+                                FontSize="20"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center">
+                                World Cup
+                            </TextBlock>
+
+                            <TextBlock
+                                x:Name="HTCountry"
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                FontSize="23">
+                                France
+                            </TextBlock>
+
+                            <TextBlock
+                                x:Name="HTFormation"
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Center"
+                                FontSize="25">
+                                5-4-3-1
+                            </TextBlock>
+
+                            <TextBlock
+                                x:Name="ATCountry"
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                FontSize="23">      
+                                Croatia
+                            </TextBlock>
+
+                            <TextBlock
+                                x:Name="ATFormation"
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Center"
+                                FontSize="25">
+                                5-4-3-1
+                            </TextBlock>
+
+                            <TextBlock
+                                x:Name="MatchTime"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                FontSize="35"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center">
+                                15:00
+                            </TextBlock>
+
+                            <TextBlock
+                                x:Name="MatchDate"
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                FontSize="23">
+                                15 JUL 2018
+                            </TextBlock>
+                        </Grid>
+                    </Border>
+
+                    <Grid
+                        Grid.Row="1"  
+                        Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="15*"/>
+                        </Grid.RowDefinitions>
+                        <ScrollViewer
+                            Grid.Row="1"
+                             VerticalScrollBarVisibility="Auto">
+                            <WrapPanel 
+                            Grid.Row="1"
+                            x:Name="LineupHT"
+                            Orientation="Vertical"
+                            HorizontalAlignment="Center">
+                            </WrapPanel>
+                        </ScrollViewer>
+                        <TextBlock
+                                
+                                 HorizontalAlignment="Stretch"
+                                 TextAlignment="Right"
+                                 Margin="0,0,10,0"
+                                 Background="LightBlue"
+                                 FontSize="16"
+                                 Foreground="Black">
+                                 Lineup
+                        </TextBlock>
+
+                    </Grid>
+
+
+                    <Grid 
+                        Grid.Row="1"  
+                        Grid.Column="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="15*"/>
+                        </Grid.RowDefinitions>
+                        <ScrollViewer
+                            Grid.Row="1"
+                            VerticalScrollBarVisibility="Auto">
+                            <WrapPanel 
+                            Grid.Row="1"
+                            x:Name="LineupAT"
+                            Orientation="Vertical"
+                            HorizontalAlignment="Center">
+                            </WrapPanel>
+                        </ScrollViewer>
+                        <TextBlock
+                                Grid.Row="0"
+                                Margin="10,0,10,0"
+                                Background="Red"
+                                FontSize="16"
+                                HorizontalAlignment ="Stretch"
+                                Foreground="Black">
+                                Lineup
+                        </TextBlock>
+
+                    </Grid>
+
+
+
+
+
+                    <Grid
+                        Grid.Row="2" 
+                        Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="10*"/>
+                        </Grid.RowDefinitions>
+                        <ScrollViewer
+                            Grid.Row="1"
+                            VerticalScrollBarVisibility="Auto">
+                            <WrapPanel 
+                             HorizontalAlignment="Center"
+                             x:Name="BenchHT"
+                             Orientation="Vertical"
+                             Margin="10, 0 ,10, 0">
+                            </WrapPanel>
+                        </ScrollViewer>
+                        <TextBlock
+                                VerticalAlignment="Top"
+                            TextAlignment="Right"
+                            Margin="0,0,10,0"
+                            Background="LightBlue"
+                            FontSize="16"
+                            HorizontalAlignment="Stretch"                            
+                            Foreground="Black">
+                            Bench
+                        </TextBlock>
+                    </Grid>
+                    <Grid
+                        Grid.Row="2" 
+                        Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="10*"/>
+                        </Grid.RowDefinitions>
+                        <ScrollViewer
+                            Grid.Row="1"
+                            VerticalScrollBarVisibility="Auto">
+                            <WrapPanel 
+                                        HorizontalAlignment="Center"
+                                        x:Name="BenchAT"
+                                        Orientation="Vertical"
+                                        Margin="10, 0 ,10, 0">
+                            </WrapPanel>
+                        </ScrollViewer>
+                        <TextBlock
+                            VerticalAlignment="Top"
+                            Margin="10,0,0,0"
+                            Background="Red"
+                            FontSize="16"
+                            HorizontalAlignment="Stretch"                            
+                            Foreground="Black">
+                            Bench
+                        </TextBlock>
+                    </Grid>
+
+
+                    <Border 
+                        x:Name="PlayersContainer"
+                        Grid.Row="1" 
+                        Grid.Column="1" 
+                        Grid.RowSpan="2">
+                        <Grid>
+                            <Grid.Background>
+                                <ImageBrush ImageSource = "/field.jpg" />
+                            </Grid.Background>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <WrapPanel 
+                                x:Name="HTGoalie"
+                                Grid.Row="0"
+                                HorizontalAlignment="Center"
+                                Orientation="Horizontal"
+                                Background="Transparent">
+                            </WrapPanel>
+
+                            <WrapPanel
+                                x:Name="HTDefending"
+                                Grid.Row="1"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Background="Transparent">
+                            </WrapPanel>
+
+                            <WrapPanel
+                                x:Name="HTMidfield"
+                                Grid.Row="2"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Background="Transparent">
+                            </WrapPanel>
+
+                            <WrapPanel 
+                                x:Name="HTForward"
+                                Grid.Row="3"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Background="Transparent">
+                            </WrapPanel>
+
+                            <WrapPanel
+                                x:Name="ATForward"
+                                Grid.Row="4"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Background="Transparent">
+                            </WrapPanel>
+
+                            <WrapPanel 
+                                x:Name="ATMidfield"
+                                Grid.Row="5"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Background="Transparent">
+                            </WrapPanel>
+
+                            <WrapPanel 
+                                x:Name="ATDefender"
+                                Grid.Row="6"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Background="Transparent">
+                            </WrapPanel>
+
+                            <WrapPanel 
+                                x:Name="ATGoalie"
+                                Grid.Row="7"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Background="Transparent">
+                            </WrapPanel>
+
+                        </Grid>
+
+                    </Border>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

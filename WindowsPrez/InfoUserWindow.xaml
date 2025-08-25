@@ -1,0 +1,96 @@
+﻿<Window x:Class="WindowsPrez.InfoUserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WindowsPrez"
+        mc:Ignorable="d"
+        Title="InfoUserWindow" Height="300" Width="201"
+        Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock>
+        Name:
+        </TextBlock>
+
+        <TextBlock 
+            x:Name="lbName"
+            Grid.Row="0"
+            Margin="13"
+            VerticalAlignment="Center">
+            Naziv
+        </TextBlock>
+
+        <TextBlock
+        Grid.Row="1">
+        Captain :
+        </TextBlock>
+        <TextBlock
+            x:Name="lbCaptain"
+            Grid.Row="1"
+            Margin="13"
+            VerticalAlignment="Center">
+            unknown
+        </TextBlock>
+
+        <TextBlock
+        Grid.Row="2">
+        Shirt Number:
+        </TextBlock>
+
+        <TextBlock
+            x:Name="lbShirtNumber"
+            Grid.Row="2"
+            Margin="13"
+            VerticalAlignment="Center">
+            unknown
+        </TextBlock>
+
+
+        <TextBlock
+        Grid.Row="3">
+        Position :
+        </TextBlock>
+        <TextBlock
+            x:Name="lbPosition"
+            Grid.Row="3"
+            Margin="13"
+            VerticalAlignment="Center">
+            15/4
+        </TextBlock>
+
+        <TextBlock
+        Grid.Row="4">
+        Goals Scored :
+        </TextBlock>
+
+        <TextBlock
+            x:Name="lbGoalsScored"
+            Grid.Row="4"
+            Margin="13"
+            VerticalAlignment="Center">
+            111
+        </TextBlock>
+
+        <TextBlock
+          Grid.Row="5">
+         Yellow Cards :
+        </TextBlock>
+
+        <TextBlock
+            x:Name="lbYellowCards"
+            Grid.Row="5"
+            Margin="13"
+            VerticalAlignment="Center">
+            111
+        </TextBlock>
+
+    </Grid>
+</Window>

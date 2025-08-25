@@ -1,0 +1,112 @@
+﻿<Window x:Class="WindowsPrez.InfoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WindowsPrez"
+        mc:Ignorable="d"
+        Title="InfoWindow" Height="300" Width="244"
+        Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock>
+            Country:
+        </TextBlock>
+
+        <TextBlock 
+            x:Name="lbCountry"
+            Grid.Row="0"
+            Margin="13"
+            VerticalAlignment="Center">
+            Naziv
+        </TextBlock>
+
+        <TextBlock
+            Grid.Row="1">
+            Fifa code :
+        </TextBlock>
+        <TextBlock
+            x:Name="lbFifaCode"
+            Grid.Row="1"
+            Margin="13"
+            VerticalAlignment="Center">
+            unknown
+        </TextBlock>
+        
+        <TextBlock
+            Grid.Row="2">
+            Number of Games :
+        </TextBlock>
+
+        <TextBlock
+            x:Name="lbGames"
+            Grid.Row="2"
+            Margin="13"
+            VerticalAlignment="Center">
+            unknown
+        </TextBlock>
+
+
+        <TextBlock
+            Grid.Row="3">
+            Wins/Losses/Ties :
+        </TextBlock>
+        <TextBlock
+            x:Name="lbWinsLosses"
+            Grid.Row="3"
+            Margin="13"
+            VerticalAlignment="Center">
+            15/4
+        </TextBlock>
+        
+        <TextBlock
+            Grid.Row="4">
+            Goals Scored :
+        </TextBlock>
+
+        <TextBlock
+            x:Name="lbGoalsScored"
+            Grid.Row="4"
+            Margin="13"
+            VerticalAlignment="Center">
+            111
+        </TextBlock>
+
+
+        <TextBlock
+            Grid.Row="5">
+            Goals Taken :
+        </TextBlock>
+
+        <TextBlock
+            x:Name="lbGoalsTaken"
+            Grid.Row="5"
+            Margin="13"
+            VerticalAlignment="Center">
+            144
+        </TextBlock>
+
+
+        <TextBlock
+            Grid.Row="6">
+            Goals Difference : 
+        </TextBlock>
+
+        <TextBlock
+            x:Name="lbGoalsDifference"
+            Grid.Row="6"
+            Margin="13"
+            VerticalAlignment="Center">
+            unknown
+        </TextBlock>
+
+    </Grid>
+</Window>
